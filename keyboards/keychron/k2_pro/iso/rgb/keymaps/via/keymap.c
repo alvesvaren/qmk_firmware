@@ -15,6 +15,8 @@
  */
 
 #include QMK_KEYBOARD_H
+#include "quantum.h"
+#include "deferred_exec.h"
 
 // clang-format off
 enum layers{
@@ -23,6 +25,36 @@ enum layers{
   WIN_BASE,
   WIN_FN
 };
+
+
+enum custom_keycodes {
+  DLY_C = QK_KB_13, // ensure this is the last keycode in the enum
+};
+
+deferred_token token;
+
+uint32_t wait_register_c(uint32_t trigger_time, void *cb_arg) {
+    /* do something */
+    register_code(KC_C);
+    return 0;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case DLY_C:
+      if (record->event.pressed) {
+        // on key press
+        token = defer_exec(7, wait_register_c, NULL);
+      } else {
+        // on key release
+        cancel_deferred_exec(token);
+        token = INVALID_DEFERRED_TOKEN;
+        unregister_code(KC_C); // unregister left control key
+      }
+      return false; // skip all further processing of this key
+  }
+  return true;
+}
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [MAC_BASE] = LAYOUT_iso_85(
