@@ -78,7 +78,7 @@
     {"name": "Bluetooth Host 2", "title": "Bluetooth Host 2", "shortName": "BTH2"},
     {"name": "Bluetooth Host 3", "title": "Bluetooth Host 3", "shortName": "BTH3"},
     {"name": "Battery Level", "title": "Show battery level", "shortName": "Batt"},
-    {"name": "Delay C", "title": "Delay C press by 9ms", "shortName": "C Dly"}
+    {"name": "Delay C", "title": "Delay C press by 7ms", "shortName": "C Dly"}
   ],
   "matrix": {"rows": 6, "cols": 16},
   "layouts": {
